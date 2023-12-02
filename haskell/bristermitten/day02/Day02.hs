@@ -2,13 +2,12 @@
 
 module Day02 where
 
-import Control.Applicative
+import Control.Applicative (Alternative (some, (<|>)))
 import Data.Char qualified as Char
-
 import Data.Map (Map)
 import Data.Map qualified as Map
-import Data.Tuple
-import Parsing
+import Data.Tuple (swap)
+import Parsing (Parser, char, mustParse, satisfy, sepBy, string)
 
 data Game = Game Int [Map String Int] deriving (Show)
 
@@ -43,7 +42,6 @@ gameSatisfies (Game _ groups) nums =
 gameMin :: Game -> Map String Int
 gameMin (Game _ groups) =
     Map.unionsWith max groups
-        -- `Map.union` Map.fromList [("red", 1), ("blue", 1), ("green", 1)]
 
 part1 :: [String] -> Int
 part1 input =
