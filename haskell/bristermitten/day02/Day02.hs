@@ -9,7 +9,6 @@ import Data.Map (Map)
 import Data.Map qualified as Map
 import Data.Tuple
 import Parsing
-import Debug.Trace (traceShowM, traceShowId, traceShow)
 
 data Game = Game Int [Map String Int] deriving (Show)
 
