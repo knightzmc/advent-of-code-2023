@@ -8,6 +8,14 @@ import Data.String
 -- Microscopic parser combinator library
 newtype Parser a = Parser {runParser :: String -> Maybe (a, String)}
 
+parse :: Parser a -> String -> Maybe a
+parse (Parser p) = fmap fst . p
+
+mustParse :: Parser a -> String -> a
+mustParse p s = case parse p s of
+    Just a -> a
+    Nothing -> error "parse error"
+
 instance Functor Parser where
     fmap f (Parser p) = Parser $ \s -> do
         (a, s') <- p s
@@ -32,15 +40,16 @@ instance Alternative Parser where
 instance IsString (Parser String) where
     fromString = string
 
-anyChar :: Parser Char
-anyChar = Parser $ \case
-    (x : xs) -> Just (x, xs)
+satisfy :: (Char -> Bool) -> Parser Char
+satisfy f = Parser $ \case
+    (x : xs) | f x -> Just (x, xs)
     _ -> Nothing
 
+anyChar :: Parser Char
+anyChar = satisfy (const True)
+
 char :: Char -> Parser Char
-char c = Parser $ \case
-    (x : xs) | x == c -> Just (c, xs)
-    _ -> Nothing
+char c = satisfy (== c)
 
 string :: String -> Parser String
 string = traverse char

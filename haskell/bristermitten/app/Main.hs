@@ -1,13 +1,14 @@
 module Main where
 
 import Day01 qualified
+import Day02 qualified
 
 import System.Directory
 import Data.Foldable
 
 
 days :: [(String, IO ())]
-days = [("01", Day01.main)]
+days = [("01", Day01.main), ("02", Day02.main)]
 
 main :: IO ()
 main = do

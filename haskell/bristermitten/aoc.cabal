@@ -25,15 +25,17 @@ executable aoc
     default-language: GHC2021
 
 
-
 common day
     import:           warnings
-    build-depends:    base ^>= 4.17.2.0, aoc
+    build-depends:    base, aoc
     default-language: GHC2021
-
+    
 library 
     import: warnings
+    build-depends: base
     hs-source-dirs: common
+    default-language: GHC2021
+    exposed-modules:  Parsing
 
 library day01
     import:           day
@@ -44,3 +46,4 @@ library day02
     import:           day
     exposed-modules:  Day02
     hs-source-dirs:   day02
+    build-depends: containers
