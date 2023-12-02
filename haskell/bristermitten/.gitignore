@@ -1,1 +1,5 @@
-day01/.vscode/tasks.json
+**/.vscode/**
+**/*.hi
+**/*.o
+
+dist-newstyle/**

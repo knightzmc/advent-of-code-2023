@@ -1,6 +1,6 @@
 
 
-module Main where
+module Day01 where
 import qualified Data.Char as Char
 import Data.Maybe (maybeToList)
 import Data.List (tails, find, isPrefixOf)
