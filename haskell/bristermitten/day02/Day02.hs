@@ -6,7 +6,6 @@ import Control.Applicative (Alternative (some, (<|>)))
 import Data.Char qualified as Char
 import Data.Map (Map)
 import Data.Map qualified as Map
-import Data.Tuple (swap)
 import Parsing (Parser, char, mustParse, satisfy, sepBy, string)
 
 data Game = Game Int [Map String Int] deriving (Show)
@@ -25,14 +24,14 @@ parseScoreGroups :: Parser [Map String Int]
 parseScoreGroups = parseScoreGroup `sepBy` string "; "
 
 parseScoreGroup :: Parser (Map String Int)
-parseScoreGroup = Map.fromList <$> (fmap swap <$> parseNumCol `sepBy` string ", ")
+parseScoreGroup = Map.fromList <$> (parseNumCol `sepBy` string ", ")
 
-parseNumCol :: Parser (Int, String)
+parseNumCol :: Parser (String, Int)
 parseNumCol = do
     n <- read <$> some (satisfy Char.isDigit)
     _ <- char ' '
     col <- "red" <|> "blue" <|> "green"
-    pure (n, col)
+    pure (col, n)
 
 gameSatisfies :: Game -> [(String, Int)] -> Bool
 gameSatisfies (Game _ groups) nums =
@@ -52,7 +51,7 @@ part1 input =
 part2 :: [String] -> Int
 part2 input =
     let games = mustParse parseGame <$> input
-        mins = (gameMin <$> games)
+        mins = gameMin <$> games
         powers = Map.foldr (*) 1 <$> mins
      in sum powers
 
