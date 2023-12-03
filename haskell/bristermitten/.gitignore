@@ -2,10 +2,10 @@
 **/*.hi
 **/*.o
 
+# AoC Inputs
+**/input.txt 
+
 dist-newstyle/**
-# Devenv
-.devenv*
-devenv.local.nix
 
 # direnv
 .direnv
